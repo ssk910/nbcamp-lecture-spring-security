@@ -6,7 +6,13 @@ spring:
     username: root
     password: password
     driver-class-name: org.mariadb.jdbc.Driver
+#    url: "jdbc:h2:mem:testdb"
+#    username: sa
+#    password: password
+#    driver-class-name: org.h2.Driver
+
   jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     properties:
@@ -25,5 +31,5 @@ logging:
       netty: DEBUG
 
 jwt:
-  secret: "ccv36zwc434spf0x7s4kucgb2w9straidcrparn2yhdbkwrhzle4vwkmac1400om"
-  expiry-milli: 3600000
+  secret: "036c4fe3ec667532545b9e8fa7e2a98a22f439dff102623c097715060e2da68c"
+  expiry-millis: 300000 # 5분

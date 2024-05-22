@@ -1,0 +1,18 @@
+version: '4'
+
+services:
+  db:
+    container_name: "spring-security-mariadb"
+    image: mariadb:10.4
+    restart: always
+    ports:
+      - "33301:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ~/docker/sparta/spring-security/db/mariadb/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: auth
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
