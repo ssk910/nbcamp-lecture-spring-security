@@ -1,7 +1,8 @@
 # nbcamp-lecture-spring-security
 
 > `Spring Security` 예제 프로젝트입니다. \
-> `Docker`와 `MariaDB`를 사용하고 있습니다.
+> `Docker`와 `MariaDB`를 사용하고 있습니다. \
+> (H2를 이용한 버전: [nbcamp-lecture-spring-security-h2](https://github.com/ssk910/nbcamp-lecture-spring-security-h2))
 
 <b>주의할 점</b>
 - 대부분 개발자는 예제로 공부하는데, 이런 예제는 주제에 집중할 수 있도록 단순화되어 있습니다.
