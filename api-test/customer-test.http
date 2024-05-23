@@ -1,0 +1,39 @@
+## Variables
+@customer_usernmae = customer@sparta.com
+@customer_password = P@ssw0rd
+
+### 유저 계정 등록
+POST http://localhost:8080/accounts?role=customer
+Content-Type: application/json
+
+{
+  "email": "{{customer_usernmae}}",
+  "password": "{{customer_password}}"
+}
+
+### 유저 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{customer_usernmae}}",
+  "password": "{{customer_password}}"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}
+
+### 관리자 API
+GET http://localhost:8080/auth/admin
+Authorization: Bearer {{auth_token}}
+
+### 유저 API
+GET http://localhost:8080/auth/customer
+Authorization: Bearer {{auth_token}}
+
+### 전체 접근 API
+GET http://localhost:8080/auth/all
+Authorization: Bearer {{auth_token}}
+
+### 현재 사용자의 인증정보 확인
+GET http://localhost:8080/user/me
+Authorization: Bearer {{auth_token}}

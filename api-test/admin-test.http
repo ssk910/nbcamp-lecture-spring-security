@@ -1,0 +1,39 @@
+## Variables
+@admin_usernmae = admin@sparta.com
+@admin_password = 1q2w3e4r
+
+### 관리자 계정 등록
+POST http://localhost:8080/accounts?role=admin
+Content-Type: application/json
+
+{
+  "email": "{{admin_usernmae}}",
+  "password": "{{admin_password}}"
+}
+
+### 관리자 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{admin_usernmae}}",
+  "password": "{{admin_password}}"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}
+
+### 관리자 API
+GET http://localhost:8080/auth/admin
+Authorization: Bearer {{auth_token}}
+
+### 유저 API
+GET http://localhost:8080/auth/customer
+Authorization: Bearer {{auth_token}}
+
+### 전체 접근 API
+GET http://localhost:8080/auth/all
+Authorization: Bearer {{auth_token}}
+
+### 현재 사용자의 인증정보 확인
+GET http://localhost:8080/user/me
+Authorization: Bearer {{auth_token}}
