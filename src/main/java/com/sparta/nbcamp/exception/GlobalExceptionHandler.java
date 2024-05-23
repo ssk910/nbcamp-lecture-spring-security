@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
@@ -30,6 +31,22 @@ public class GlobalExceptionHandler {
       HandlerMethodValidationException e) {
     String message = e.getAllValidationResults().get(0).getResolvableErrors().get(0)
         .getDefaultMessage();
+
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(new CommonResponse<>(message, null));
+  }
+
+  /**
+   * Validation 예외 처리.
+   *
+   * @param e MethodArgumentNotValidException 인스턴스
+   * @return {@code ResponseEntity<CommonResponse<String>>}
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<CommonResponse<String>> handleValidationExceptions(
+      MethodArgumentNotValidException e) {
+    String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
