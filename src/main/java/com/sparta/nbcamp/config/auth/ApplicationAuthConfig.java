@@ -1,6 +1,5 @@
-package com.sparta.nbcamplecturespringsecurity.config;
+package com.sparta.nbcamp.config.auth;
 
-import com.sparta.nbcamplecturespringsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,42 +10,56 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * 애플리케이션 인증 관련 설정.
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity
-public class ApplicationConfig {
+public class ApplicationAuthConfig {
 
-  private final UserRepository repository;
+  /**
+   * UserDetailsService.
+   */
+  private final UserDetailsService userDetailsService;
 
-  @Bean
-  public UserDetailsService userDetailsService() {
-    return username -> repository.findByEmail(username)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-  }
-
+  /**
+   * PasswordEncoder(암호 처리기).
+   *
+   * @return {@link BCryptPasswordEncoder}
+   */
   @Bean
   BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
+  /**
+   * AuthenticationManager(인증 관리자).
+   *
+   * @param config {@link AuthenticationConfiguration}
+   * @return 설정이 추가된 AuthenticationManager
+   */
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
       throws Exception {
     return config.getAuthenticationManager();
   }
 
+  /**
+   * AuthenticationProvider(인증 공급자).
+   *
+   * @return {@link AuthenticationProvider}
+   */
   @Bean
   AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-    authProvider.setUserDetailsService(userDetailsService());
+    authProvider.setUserDetailsService(this.userDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder());
 
     return authProvider;
   }
-
 }

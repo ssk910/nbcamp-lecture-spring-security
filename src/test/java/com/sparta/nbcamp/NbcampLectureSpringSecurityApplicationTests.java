@@ -1,4 +1,4 @@
-package com.sparta.nbcamplecturespringsecurity;
+package com.sparta.nbcamp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

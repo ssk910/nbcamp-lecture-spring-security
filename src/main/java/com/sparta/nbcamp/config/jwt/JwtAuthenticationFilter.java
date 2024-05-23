@@ -1,5 +1,6 @@
-package com.sparta.nbcamplecturespringsecurity.config.jwt;
+package com.sparta.nbcamp.config.jwt;
 
+import com.sparta.nbcamp.config.auth.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,13 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * JWT 인증 필터. request마다 처리.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -46,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String username = jwtTokenProvider.getUsername(token);
 
     // 토큰에 해당되는 사용자를 찾는다
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
 
     // SecurityContext에 인증 객체 저장.
     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

@@ -1,7 +1,7 @@
-package com.sparta.nbcamplecturespringsecurity.config.jwt;
+package com.sparta.nbcamp.config.jwt;
 
-import com.sparta.nbcamplecturespringsecurity.model.User;
-import com.sparta.nbcamplecturespringsecurity.repository.UserRepository;
+import com.sparta.nbcamp.model.Customer;
+import com.sparta.nbcamp.repository.CustomerRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -11,7 +11,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.persistence.EntityNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,7 @@ public class JwtTokenProvider {
   /**
    * Customer repository.
    */
-  private final UserRepository customerRepository;
+  private final CustomerRepository customerRepository;
 
   /**
    * <p>토큰 생성 후 리턴.</p>
@@ -58,13 +57,6 @@ public class JwtTokenProvider {
   public String generateToken(Authentication authentication) throws EntityNotFoundException {
     String username = authentication.getName();
     return this.generateTokenBy(username);
-  }
-
-  public void foo() {
-    Date currentDate = new Date();
-    Date expiredDate = new Date(currentDate.getTime() - jwtExpirationMillis);
-
-
   }
 
   /**
@@ -135,7 +127,7 @@ public class JwtTokenProvider {
     Date currentDate = new Date();
     Date expireDate = new Date(currentDate.getTime() + jwtExpirationMillis);
 
-    User customer = this.customerRepository.findByEmail(email)
+    Customer customer = this.customerRepository.findByEmail(email)
         .orElseThrow(() -> new EntityNotFoundException(
             String.format("Customer with email \"%s\" does not exist.", email)));
 
