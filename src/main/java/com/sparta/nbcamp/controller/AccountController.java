@@ -30,17 +30,17 @@ public class AccountController {
   /**
    * 사용자의 계정을 등록.
    *
-   * @param dto  {@link LoginRequest}
+   * @param loginRequest  {@link LoginRequest}
    * @param role 등록하고 싶은 권한. ({@link Role})
    * @return {@link ResponseEntity}<{@link CommonResponse}<{@link Void}>>
    */
   @PostMapping
   public ResponseEntity<CommonResponse<String>> postCustomerAccount(
-      @Valid @RequestBody LoginRequest dto,
+      @Valid @RequestBody LoginRequest loginRequest,
       @NotBlank @RequestParam String role) {
     Customer savedCustomer = customerService.save(new Customer(
-        dto.getEmail(),
-        passwordEncoder.encode(dto.getPassword()),
+        loginRequest.getEmail(),
+        passwordEncoder.encode(loginRequest.getPassword()),
         Role.from(role)
     ));
 
