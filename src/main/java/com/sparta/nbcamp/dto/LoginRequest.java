@@ -15,6 +15,7 @@ public class LoginRequest {
     /**
      * 이메일 (username으로 식별).
      */
+    @NotBlank(message = "An email should be not empty.")
     @Email(message = "Email format required.")
     private String email;
 
