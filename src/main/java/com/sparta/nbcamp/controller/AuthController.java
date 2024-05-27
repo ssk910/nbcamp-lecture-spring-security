@@ -7,6 +7,7 @@ import com.sparta.nbcamp.service.AuthService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/auth")
 @RequiredArgsConstructor
+@Slf4j(topic = "Security::AuthController")
 public class AuthController {
 
   private final AuthService authService;
@@ -78,6 +80,8 @@ public class AuthController {
    * @return 메세지
    */
   private String createResponseBy(Authentication authentication) {
+    log.debug("Controller에서 SecurityContext에 저장된 Authentication 이용.");
+
     String username = authentication.getName();
     List<? extends GrantedAuthority> authorities = authentication.getAuthorities().stream()
         .toList();

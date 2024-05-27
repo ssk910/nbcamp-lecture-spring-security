@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
  */
 @Component
 @RequiredArgsConstructor
-@Slf4j(topic = "JWT")
+@Slf4j(topic = "Security::JwtTokenProvider")
 public class JwtTokenProvider {
 
   /**
