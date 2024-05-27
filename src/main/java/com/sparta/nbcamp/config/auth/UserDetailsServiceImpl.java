@@ -3,6 +3,7 @@ package com.sparta.nbcamp.config.auth;
 import com.sparta.nbcamp.model.Customer;
 import com.sparta.nbcamp.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j(topic = "Security::UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   /**
@@ -32,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     Customer customer = this.customerRepository.findByEmail(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+    log.debug("찾은 사용자: {}", username);
     return new UserDetailsImpl(customer);
   }
 }

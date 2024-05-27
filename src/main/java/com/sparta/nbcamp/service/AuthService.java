@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Slf4j(topic = "Security::AuthService")
 public class AuthService {
 
   private final AuthenticationManager authenticationManager;
@@ -43,10 +43,12 @@ public class AuthService {
     // 사용자 인증 후 정보를 저장
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+    log.debug("SecurityContext에 Authentication 저장.");
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     // 토큰 생성
     String token = this.jwtTokenProvider.generateToken(authentication);
+    log.debug("토큰 생성.");
 
     return new JwtAuthResponse(token, "Bearer",
         this.jwtTokenProvider.getJwtExpiryInMillis());
